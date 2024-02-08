@@ -18,7 +18,6 @@ module.exports = {
         images: joi
             .array()
             .items({
-                isApproved: joi.boolean().required(),
                 image: joi.string().required(),
             })
             .allow("", null),
