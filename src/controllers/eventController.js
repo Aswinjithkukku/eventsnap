@@ -85,6 +85,8 @@ module.exports = {
             })
             .lean();
 
+        console.log(new Date(event.eventDate).toDateString());
+
         if (!event) {
             return next(new AppError("No events found", 404));
         }
@@ -125,8 +127,7 @@ module.exports = {
             id,
             {
                 ...req.body,
-                images: images,
-                user: req.user._id,
+                images: [...req.body.images, ...images],
             },
             {
                 new: true,
@@ -144,8 +145,13 @@ module.exports = {
         });
     }),
 
-    getUpCommingEvents: catchAsyncError(async (req, res, next) => {
-        const query = { eventDate: { $gt: new Date() } };
+    getPresentEvents: catchAsyncError(async (req, res, next) => {
+        const today = new Date();
+        const dayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const dayEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        dayEnd.setHours(23, 59, 59, 999);
+
+        const query = { eventDate: { $gte: dayStart, $lte: dayEnd } };
 
         const events = await Event.find(query)
             .select("title eventDate location images user")
@@ -166,8 +172,9 @@ module.exports = {
         });
     }),
 
-    getPresentEvents: catchAsyncError(async (req, res, next) => {
-        const query = { eventDate: { $eq: Date.now() } };
+    getUpCommingEvents: catchAsyncError(async (req, res, next) => {
+        
+        const query = { eventDate: { $gt: new Date() } };
 
         const events = await Event.find(query)
             .select("title eventDate location images user")

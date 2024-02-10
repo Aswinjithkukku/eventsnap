@@ -289,6 +289,76 @@ To run the project, use the following commands:
 }
 ```
 
+#### Get present day event - User
+
+-   **Endpoint:** `/api/v1/event/present`
+-   **Method:** `GET`
+-   **Authorization:** `Bearer token.....`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "65c03080b7a80f70d64903fd",
+            "title": "nummm",
+            "eventDate": "2024-06-01T18:30:00.000Z",
+            "location": "Nilambur",
+            "user": {
+                "_id": "65bfed1319d45f6b009c74b4",
+                "name": "test user 123"
+            },
+            "images": [
+                {
+                    "isApproved": false,
+                    "image": "/public/images/event/images-1707094144399-680279258.jpg",
+                    "_id": "65c03080b7a80f70d64903fe"
+                }
+            ]
+        },
+        {......}
+    ]
+}
+
+```
+
+#### Get present day event - User
+
+-   **Endpoint:** `/api/v1/event/upcomming`
+-   **Method:** `GET`
+-   **Authorization:** `Bearer token.....`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "65c03080b7a80f70d64903fd",
+            "title": "nummm",
+            "eventDate": "2024-06-01T18:30:00.000Z",
+            "location": "Nilambur",
+            "user": {
+                "_id": "65bfed1319d45f6b009c74b4",
+                "name": "test user 123"
+            },
+            "images": [
+                {
+                    "isApproved": false,
+                    "image": "/public/images/event/images-1707094144399-680279258.jpg",
+                    "_id": "65c03080b7a80f70d64903fe"
+                }
+            ]
+        },
+        {......}
+    ]
+}
+
+```
+
 ### ADMIN EVENT MODULE
 
 #### Event Creation - ADMIN
@@ -457,8 +527,6 @@ To run the project, use the following commands:
     }
 }
 ```
-
-
 
 #### Approve Image of event - ADMIN
 

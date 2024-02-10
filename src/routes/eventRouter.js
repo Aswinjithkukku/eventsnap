@@ -35,6 +35,11 @@ const upload = multer({
 
 router.post("/create", authorize, upload, eventController.addEvent);
 router.get("/", authorize, eventController.viewEvents);
+router.get("/present", authorize, eventController.getPresentEvents);
+router.get("/upcomming", authorize, eventController.getUpCommingEvents);
+
+// generated idees would be here.
 router.get("/:id", authorize, eventController.viewSingleEvent);
 
 module.exports = router;
+ 
