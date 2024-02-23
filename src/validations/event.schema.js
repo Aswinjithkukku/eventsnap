@@ -15,11 +15,10 @@ module.exports = {
         description: joi.string().required(),
         eventDate: joi.date().required(),
         location: joi.string().required(),
-        images: joi
-            .array()
-            .items({
+        thumbail: joi
+            .object({
                 image: joi.string().required(),
-                isApproved: joi.boolean().required(),
+                isApproved: joi.boolean(),
             })
             .allow("", null),
     }),
