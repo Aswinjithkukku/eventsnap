@@ -31,15 +31,15 @@ const upload = multer({
         cb(undefined, true);
     },
     storage: storage,
-}).fields([{ name: "images", maxCount: 8 }]);
+});
 
-router.post("/create", authorize, upload, eventController.addEvent);
+router.post("/create", authorize, upload.single("image"), eventController.addEvent);
 router.get("/", authorize, eventController.viewEvents);
 router.get("/present", authorize, eventController.getPresentEvents);
 router.get("/upcomming", authorize, eventController.getUpCommingEvents);
 
 // generated idees would be here.
 router.get("/:id", authorize, eventController.viewSingleEvent);
+router.patch("/:id", authorize, upload.single("image"), eventController.updateEvent);
 
 module.exports = router;
- 

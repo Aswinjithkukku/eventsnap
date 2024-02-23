@@ -13,19 +13,20 @@ module.exports = {
             );
         }
 
-        let images = [];
-        let image = req.files["images"];
-        if (image || image?.length > 0) {
-            for (let i = 0; i < image?.length; i++) {
-                const img = "/" + image[i]?.path?.replace(/\\/g, "/");
-                images.push({
-                    isApproved: false,
-                    image: img,
-                });
-            }
+        let image;
+        if (req.file?.path) {
+            image = "/" + req.file.path.replace(/\\/g, "/");
         }
 
-        const event = new Event({ ...req.body, images: images, user: req.user._id });
+        const event = new Event({
+            ...req.body,
+            isApproved: true,
+            thumbnail: {
+                isApproved: true,
+                image: image,
+            },
+            user: req.user._id,
+        });
 
         await event.save();
 
@@ -52,7 +53,7 @@ module.exports = {
         }
 
         const events = await Event.find(query)
-            .select("title eventDate location images user")
+            .select("title eventDate location thumbnail user")
             .populate({
                 path: "user",
                 select: "name",
@@ -111,23 +112,19 @@ module.exports = {
             );
         }
 
-        let images = [];
-        let image = req.files["images"];
-        if (image || image?.length > 0) {
-            for (let i = 0; i < image?.length; i++) {
-                const img = "/" + image[i]?.path?.replace(/\\/g, "/");
-                images.push({
-                    isApproved: false,
-                    image: img,
-                });
-            }
+        let image;
+        if (req.file?.path) {
+            image = "/" + req.file.path.replace(/\\/g, "/");
         }
 
         const event = await Event.findByIdAndUpdate(
             id,
             {
                 ...req.body,
-                images: [...req.body.images, ...images],
+                thumbnail: {
+                    isApproved: true,
+                    image: image,
+                },
             },
             {
                 new: true,
@@ -154,7 +151,7 @@ module.exports = {
         const query = { eventDate: { $gte: dayStart, $lte: dayEnd } };
 
         const events = await Event.find(query)
-            .select("title eventDate location images user")
+            .select("title eventDate location thumbnail user")
             .populate({
                 path: "user",
                 select: "name",
@@ -173,11 +170,10 @@ module.exports = {
     }),
 
     getUpCommingEvents: catchAsyncError(async (req, res, next) => {
-        
         const query = { eventDate: { $gt: new Date() } };
 
         const events = await Event.find(query)
-            .select("title eventDate location images user")
+            .select("title eventDate location thumbnail user")
             .populate({
                 path: "user",
                 select: "name",

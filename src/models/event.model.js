@@ -35,20 +35,18 @@ const eventSchema = new Schema(
             required: true,
             default: false,
         },
-        images: {
-            type: [
-                {
-                    isApproved: {
-                        type: Boolean,
-                        required: true,
-                        default: false,
-                    },
-                    image: {
-                        type: String,
-                        required: true,
-                    },
+        thumbnail: {
+            type: {
+                isApproved: {
+                    type: Boolean,
+                    required: true,
+                    default: false,
                 },
-            ],
+                image: {
+                    type: String,
+                    required: true,
+                },
+            },
         },
     },
     { timestamps: true }

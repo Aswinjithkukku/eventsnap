@@ -32,22 +32,16 @@ const upload = multer({
         cb(undefined, true);
     },
     storage: storage,
-}).fields([{ name: "images", maxCount: 8 }]);
+});
 
 router.post(
     "/create",
     authorize,
     restrictTo("admin"),
-    upload,
+    upload.single("image"),
     adminEventController.addEventByAdmin
 );
 router.get("/", authorize, restrictTo("admin"), adminEventController.viewEventsByAdmin);
-router.patch(
-    "/:id/:image_id",
-    authorize,
-    restrictTo("admin"),
-    adminEventController.approveEventSingleImageByAdmin
-);
 router
     .route("/:id")
     .get(authorize, restrictTo("admin"), adminEventController.viewSingleEventByAdmin)

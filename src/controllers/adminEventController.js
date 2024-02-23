@@ -13,22 +13,19 @@ module.exports = {
             );
         }
 
-        let images = [];
-        let image = req.files["images"];
-        if (image || image?.length > 0) {
-            for (let i = 0; i < image?.length; i++) {
-                const img = "/" + image[i]?.path?.replace(/\\/g, "/");
-                images.push({
-                    isApproved: true,
-                    image: img,
-                });
-            }
+    
+        let image;
+        if (req.file?.path) {
+            image = "/" + req.file.path.replace(/\\/g, "/");
         }
 
         const event = new Event({
             ...req.body,
             isApproved: true,
-            images: images,
+            thumbnail: {
+                isApproved: true,
+                image: image,
+            },
             user: req.user._id,
         });
 
@@ -57,7 +54,7 @@ module.exports = {
         }
 
         const events = await Event.find(query)
-            .select("title eventDate location images user")
+            .select("title eventDate location thumbnail user")
             .populate({
                 path: "user",
                 select: "name",
@@ -121,37 +118,5 @@ module.exports = {
         });
     }),
 
-    approveEventSingleImageByAdmin: catchAsyncError(async (req, res, next) => {
-        const { id, image_id } = req.params;
-
-        if (!isValidObjectId(id)) {
-            return next(new AppError("Invalid event. Please try again", 400));
-        }
-
-        const event = await Event.findById(id);
-
-        if (!event) {
-            return next(new AppError("No events found", 400));
-        }
-
-        const imageArray = event.images;
-
-        const image = imageArray.find((data) => data._id?.toString() === image_id?.toString());
-
-        if (!image) {
-            return next(new AppError("No image found", 404));
-        }
-
-        image.isApproved = true;
-
-        event.images = imageArray;
-
-        await event.save();
-
-        res.status(200).json({
-            status: "success",
-            data: event,
-            message: "Event image approved successfully",
-        });
-    }),
+    
 };
