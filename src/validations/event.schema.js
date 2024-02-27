@@ -15,11 +15,5 @@ module.exports = {
         description: joi.string().required(),
         eventDate: joi.date().required(),
         location: joi.string().required(),
-        thumbail: joi
-            .object({
-                image: joi.string().required(),
-                isApproved: joi.boolean(),
-            })
-            .allow("", null),
     }),
 };

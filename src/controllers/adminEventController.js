@@ -2,7 +2,10 @@ const catchAsyncError = require("../utils/catchAsyncError");
 const Event = require("../models/event.model");
 const AppError = require("../utils/appError");
 const { isValidObjectId, Types } = require("mongoose");
-const { createAdminEventSchema } = require("../validations/adminEvent.schema");
+const {
+    createAdminEventSchema,
+    updateAdminEventSchema,
+} = require("../validations/adminEvent.schema");
 
 module.exports = {
     addEventByAdmin: catchAsyncError(async (req, res, next) => {
@@ -13,7 +16,6 @@ module.exports = {
             );
         }
 
-    
         let image;
         if (req.file?.path) {
             image = "/" + req.file.path.replace(/\\/g, "/");
@@ -37,11 +39,69 @@ module.exports = {
         });
     }),
 
+    updateEventByAdmin: catchAsyncError(async (req, res, next) => {
+        const { id } = req.params;
+
+        if (!isValidObjectId(id)) {
+            return next(new AppError("Invalid event. Please try again", 400));
+        }
+
+        const { _, error } = updateAdminEventSchema.validate(req.body);
+        if (error) {
+            return next(
+                new AppError(error.details ? error?.details[0]?.message : error?.message, 400)
+            );
+        }
+
+        let image;
+        if (req.file?.path) {
+            image = "/" + req.file.path.replace(/\\/g, "/");
+        }
+
+        let event;
+        if (image) {
+            event = await Event.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                    thumbnail: {
+                        isApproved: true,
+                        image: image,
+                    },
+                },
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+        } else {
+            event = await Event.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                },
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+        }
+
+        if (!event) {
+            return next(new AppError("Invalid Event ID.", 404));
+        }
+
+        res.status(200).json({
+            status: "success",
+            data: event,
+        });
+    }),
+
     viewEventsByAdmin: catchAsyncError(async (req, res, next) => {
         const { title, date } = req.query;
 
         let query = {
-            isApproved: false,
+            isApproved: true,
             eventDate: { $gte: new Date() },
         };
 
@@ -117,6 +177,4 @@ module.exports = {
             message: "Event Approved Successfully",
         });
     }),
-
-    
 };

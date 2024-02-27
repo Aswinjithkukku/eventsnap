@@ -177,11 +177,9 @@ To run the project, use the following commands:
     "description": "test2@email.com",
     "eventDate": "1234",
     "location": "1234",
-    "images": "image.png, image.jpg" // mutliple images can be sent
+    "images": "image.png" // Single image only
 }
 ```
-
--   Maximum images can upload is : `8`
 -   Image format can be : `jpg, jpeg, webp, or png`
 
 ##### Expected Response
@@ -359,6 +357,54 @@ To run the project, use the following commands:
 
 ```
 
+#### Update an event - User
+
+-   **Endpoint:** `/api/v1/event/:idofevent`
+-   **Method:** `PATCH`
+-   **Authorization:** `Bearer token.....`
+
+##### Request Body
+
+```json
+{
+    "title": "test user 2",
+    "description": "test2@email.com",
+    "eventDate": "1234",
+    "location": "1234",
+    "thumbnail": "image.png" // single image only
+}
+```
+-   Image format can be : `jpg, jpeg, webp, or png`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "65c03080b7a80f70d64903fd",
+            "title": "nummm",
+            "eventDate": "2024-06-01T18:30:00.000Z",
+            "location": "Nilambur",
+            "user": {
+                "_id": "65bfed1319d45f6b009c74b4",
+                "name": "test user 123"
+            },
+            "images": [
+                {
+                    "isApproved": false,
+                    "image": "/public/images/event/images-1707094144399-680279258.jpg",
+                    "_id": "65c03080b7a80f70d64903fe"
+                }
+            ]
+        },
+        {......}
+    ]
+}
+
+```
+
 ### ADMIN EVENT MODULE
 
 #### Event Creation - ADMIN
@@ -375,11 +421,9 @@ To run the project, use the following commands:
     "description": "test2@email.com",
     "eventDate": "1234",
     "location": "1234",
-    "images": "image.png, image.jpg" // mutliple images can be sent
+    "images": "image.png" // single image only
 }
 ```
-
--   Maximum images can upload is : `8`
 -   Image format can be : `jpg, jpeg, webp, or png`
 
 ##### Expected Response
@@ -408,6 +452,55 @@ To run the project, use the following commands:
         "__v": 0
     }
 }
+```
+
+
+#### Update an event - ADMIN
+
+-   **Endpoint:** `/api/v1/admin/event/update/:idofevent`
+-   **Method:** `PATCH`
+-   **Authorization:** `Bearer token.....`
+
+##### Request Body
+
+```json
+{
+    "title": "test user 2",
+    "description": "test2@email.com",
+    "eventDate": "1234",
+    "location": "1234",
+    "thumbnail": "image.png" // single image only
+}
+```
+-   Image format can be : `jpg, jpeg, webp, or png`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "65c03080b7a80f70d64903fd",
+            "title": "nummm",
+            "eventDate": "2024-06-01T18:30:00.000Z",
+            "location": "Nilambur",
+            "user": {
+                "_id": "65bfed1319d45f6b009c74b4",
+                "name": "test user 123"
+            },
+            "images": [
+                {
+                    "isApproved": false,
+                    "image": "/public/images/event/images-1707094144399-680279258.jpg",
+                    "_id": "65c03080b7a80f70d64903fe"
+                }
+            ]
+        },
+        {......}
+    ]
+}
+
 ```
 
 #### Event View - ADMIN

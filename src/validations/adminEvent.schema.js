@@ -8,4 +8,12 @@ module.exports = {
         eventDate: joi.date().required(),
         location: joi.string().required(),
     }),
+
+    // update event by user
+    updateAdminEventSchema: joi.object({
+        title: joi.string().required(),
+        description: joi.string().required(),
+        eventDate: joi.date().required(),
+        location: joi.string().required(),
+    }),
 };

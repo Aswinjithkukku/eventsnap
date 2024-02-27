@@ -40,6 +40,6 @@ router.get("/upcomming", authorize, eventController.getUpCommingEvents);
 
 // generated idees would be here.
 router.get("/:id", authorize, eventController.viewSingleEvent);
-router.patch("/:id", authorize, upload.single("image"), eventController.updateEvent);
+router.patch("/:id", authorize, upload.single("thumbnail"), eventController.updateEvent);
 
 module.exports = router;

@@ -41,6 +41,13 @@ router.post(
     upload.single("image"),
     adminEventController.addEventByAdmin
 );
+router.patch(
+    "/update/:id",
+    authorize,
+    restrictTo("admin"),
+    upload.single("thumbnail"),
+    adminEventController.updateEventByAdmin
+);
 router.get("/", authorize, restrictTo("admin"), adminEventController.viewEventsByAdmin);
 router
     .route("/:id")

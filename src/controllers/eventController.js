@@ -117,20 +117,34 @@ module.exports = {
             image = "/" + req.file.path.replace(/\\/g, "/");
         }
 
-        const event = await Event.findByIdAndUpdate(
-            id,
-            {
-                ...req.body,
-                thumbnail: {
-                    isApproved: true,
-                    image: image,
+        let event;
+        if (image) {
+            event = await Event.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                    thumbnail: {
+                        isApproved: true,
+                        image: image,
+                    },
                 },
-            },
-            {
-                new: true,
-                runValidators: true,
-            }
-        );
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+        } else {
+            event = await Event.findByIdAndUpdate(
+                id,
+                {
+                    ...req.body,
+                },
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+        }
 
         if (!event) {
             return next(new AppError("Invalid Event ID.", 404));
