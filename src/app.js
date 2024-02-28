@@ -12,6 +12,7 @@ const globalErrorHandler = require("./utils/globalErrorHandler");
 const userRouter = require("./routes/userRouter");
 const eventRouter = require("./routes/eventRouter");
 const adminEventRouter = require("./routes/adminEventRouter");
+const notificationRouter = require("./routes/notificationRouter");
 
 const app = express();
 app.use(express.json({ limit: "50mb" }));
@@ -27,6 +28,7 @@ app.use("/public", express.static("public"));
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/event", eventRouter);
 app.use("/api/v1/admin/event", adminEventRouter);
+app.use("/api/v1/notification", notificationRouter);
 
 app.get("/hello", async (req, res) => {
     try {

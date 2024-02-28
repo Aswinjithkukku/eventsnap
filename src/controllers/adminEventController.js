@@ -1,7 +1,7 @@
 const catchAsyncError = require("../utils/catchAsyncError");
 const Event = require("../models/event.model");
 const AppError = require("../utils/appError");
-const { isValidObjectId, Types } = require("mongoose");
+const { isValidObjectId } = require("mongoose");
 const {
     createAdminEventSchema,
     updateAdminEventSchema,
