@@ -81,7 +81,14 @@ module.exports = {
 
         const notification = await Notifiaction.findById(id);
 
-        notification.seenBy.push(req.user.id);
+        const isExist = notification.seenBy.find((item) => {
+            return item?.toString() === req.user._id?.toString();
+        });
+
+        console.log(isExist);
+        if (!isExist) {
+            notification.seenBy.push(req.user.id);
+        }
 
         await notification.save();
 
