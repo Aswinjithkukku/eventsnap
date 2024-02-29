@@ -49,7 +49,7 @@ module.exports = {
 
         res.status(200).json({
             status: "success",
-            message: notifications,
+            data: notifications,
         });
     }),
 
@@ -68,7 +68,7 @@ module.exports = {
 
         res.status(200).json({
             status: "success",
-            message: notification,
+            data: notification,
         });
     }),
 
@@ -94,7 +94,7 @@ module.exports = {
 
         res.status(200).json({
             status: "success",
-            message: notification,
+            data: notification,
         });
     }),
 };

@@ -180,6 +180,7 @@ To run the project, use the following commands:
     "images": "image.png" // Single image only
 }
 ```
+
 -   Image format can be : `jpg, jpeg, webp, or png`
 
 ##### Expected Response
@@ -374,6 +375,7 @@ To run the project, use the following commands:
     "thumbnail": "image.png" // single image only
 }
 ```
+
 -   Image format can be : `jpg, jpeg, webp, or png`
 
 ##### Expected Response
@@ -424,6 +426,7 @@ To run the project, use the following commands:
     "images": "image.png" // single image only
 }
 ```
+
 -   Image format can be : `jpg, jpeg, webp, or png`
 
 ##### Expected Response
@@ -454,7 +457,6 @@ To run the project, use the following commands:
 }
 ```
 
-
 #### Update an event - ADMIN
 
 -   **Endpoint:** `/api/v1/admin/event/update/:idofevent`
@@ -472,6 +474,7 @@ To run the project, use the following commands:
     "thumbnail": "image.png" // single image only
 }
 ```
+
 -   Image format can be : `jpg, jpeg, webp, or png`
 
 ##### Expected Response
@@ -658,6 +661,137 @@ To run the project, use the following commands:
         ],
         "createdAt": "2024-02-05T00:49:04.417Z",
         "updatedAt": "2024-02-05T00:49:04.417Z"
+    }
+}
+```
+
+### Notification MODULE
+
+#### Notification Creation - ADMIN
+
+-   **Endpoint:** `/api/v1/notification/create`
+-   **Method:** `POST`
+-   **Authorization:** `Bearer token.....`
+
+##### Request Body
+
+```json
+{
+    "title": "This is title 3",
+    "description": "This is description 3"
+}
+```
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "message": {
+        "_id": "65e07712905630b08555e0bf",
+        "title": "This is title 2",
+        "description": "This is description 2",
+        "seenBy": [
+            "65ddde614bba9a06e086271f",
+            "65ddde614bba9a06e086271f",
+            "65ddde614bba9a06e086271f",
+            "65ddde614bba9a06e086271f"
+        ],
+        "createdAt": "2024-02-29T12:22:42.317Z",
+        "updatedAt": "2024-02-29T12:32:24.034Z",
+        "__v": 4
+    }
+}
+```
+
+#### Delete Notification - ADMIN
+
+-   **Endpoint:** `/api/v1/notification/delete/:idOfNotification`
+-   **Method:** `DELETE`
+-   **Authorization:** `Bearer token.....`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "message": "deleted successfully"
+}
+```
+
+#### Get all notifications
+
+-   **Endpoint:** `/api/v1/notification`
+-   **Method:** `GET`
+-   **Authorization:** `Bearer token.....`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "message": [
+        {
+            "_id": "65e07712905630b08555e0bf",
+            "title": "This is title 2",
+            "description": "This is description 2",
+            "seenBy": [
+                "65ddde614bba9a06e086271f",
+                "65ddde614bba9a06e086271f",
+                "65ddde614bba9a06e086271f",
+                "65ddde614bba9a06e086271f"
+            ],
+            "createdAt": "2024-02-29T12:22:42.317Z",
+            "updatedAt": "2024-02-29T12:32:24.034Z",
+            "__v": 4
+        },
+        {....}
+    ]
+}
+```
+
+#### Get Single notifications
+
+-   **Endpoint:** `/api/v1/notification/:idOfNotification`
+-   **Method:** `GET`
+-   **Authorization:** `Bearer token.....`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "message": {
+        "_id": "65e07712905630b08555e0bf",
+        "title": "This is title 2",
+        "description": "This is description 2",
+        "seenBy": ["65ddde614bba9a06e086271f"],
+        "createdAt": "2024-02-29T12:22:42.317Z",
+        "updatedAt": "2024-02-29T12:32:24.034Z",
+        "__v": 4
+    }
+}
+```
+
+#### Make notification readed by user
+
+-   **Endpoint:** `/api/v1/notification/:idOfNotification`
+-   **Method:** `PATCH`
+-   **Authorization:** `Bearer token.....`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "message": {
+        "_id": "65e07712905630b08555e0bf",
+        "title": "This is title 2",
+        "description": "This is description 2",
+        "seenBy": ["65ddde614bba9a06e086271f"],
+        "createdAt": "2024-02-29T12:22:42.317Z",
+        "updatedAt": "2024-02-29T12:32:24.034Z",
+        "__v": 4
     }
 }
 ```
