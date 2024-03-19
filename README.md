@@ -407,6 +407,118 @@ To run the project, use the following commands:
 
 ```
 
+
+#### Add Gallery Images - User | Admin
+
+-   **Endpoint:** `/api/v1/event/gallery/:eventId`
+-   **Method:** `PATCH`
+-   **Authorization:** `Bearer token.....`
+
+##### Request Body
+
+```json
+{
+    "gallery": "imgages.png",
+}
+```
+<!-- can add multiple images -->
+
+-   Image format can be : `jpg, jpeg, webp, or png`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "data": {
+        "_id": "65f90b0a98a48a7b6c025756",
+        "title": "user event today",
+        "description": "user description",
+        "eventDate": "2024-03-26T18:30:00.000Z",
+        "location": "Nilambur",
+        "user": "65f90ac798a48a7b6c02574e",
+        "isApproved": true,
+        "isRejected": false,
+        "thumbnail": {
+            "isApproved": true,
+            "image": "/public/images/event/image-1710820106794-88776134.png",
+            "_id": "65f90b0a98a48a7b6c025757"
+        },
+        "createdAt": "2024-03-19T03:48:26.800Z",
+        "updatedAt": "2024-03-19T04:26:49.608Z",
+        "__v": 0,
+        "gallery": [
+            {
+                "isApproved": true,
+                "image": "/public/images/event/gallery-1710822409601-906870205.png",
+                "_id": "65f9140989ac5faa7ce84c63"
+            },
+            {
+                "isApproved": true,
+                "image": "/public/images/event/gallery-1710822409604-617019131.png",
+                "_id": "65f9140989ac5faa7ce84c64"
+            }
+        ]
+    }
+}
+
+```
+
+
+#### Remove Gallery Images - User | Admin
+
+-   **Endpoint:** `/api/v1/event/gallery/remove/:eventId`
+-   **Method:** `PATCH`
+-   **Authorization:** `Bearer token.....`
+
+##### Request Body
+
+```json
+{
+    "imageId": "65f9140989ac5faa7ce84c64",
+}
+```
+<!-- one image id at a time -->
+
+-   Image format can be : `jpg, jpeg, webp, or png`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "data": {
+        "_id": "65f90b0a98a48a7b6c025756",
+        "title": "user event today",
+        "description": "user description",
+        "eventDate": "2024-03-26T18:30:00.000Z",
+        "location": "Nilambur",
+        "user": "65f90ac798a48a7b6c02574e",
+        "isApproved": true,
+        "isRejected": false,
+        "thumbnail": {
+            "isApproved": true,
+            "image": "/public/images/event/image-1710820106794-88776134.png",
+            "_id": "65f90b0a98a48a7b6c025757"
+        },
+        "createdAt": "2024-03-19T03:48:26.800Z",
+        "updatedAt": "2024-03-19T04:26:49.608Z",
+        "__v": 0,
+        "gallery": [
+            {
+                "isApproved": true,
+                "image": "/public/images/event/gallery-1710822409601-906870205.png",
+                "_id": "65f9140989ac5faa7ce84c63"
+            },
+        ]
+    }
+}
+
+```
+
+
+
+
 ### ADMIN EVENT MODULE
 
 #### Event Creation - ADMIN
