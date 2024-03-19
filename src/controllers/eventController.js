@@ -53,7 +53,7 @@ module.exports = {
         }
 
         const events = await Event.find(query)
-            .select("title eventDate location thumbnail user")
+            .select("title eventDate location description thumbnail user")
             .populate({
                 path: "user",
                 select: "name",
@@ -165,7 +165,7 @@ module.exports = {
         const query = { eventDate: { $gte: dayStart, $lte: dayEnd } };
 
         const events = await Event.find(query)
-            .select("title eventDate location thumbnail user")
+            .select("title eventDate location description thumbnail user")
             .populate({
                 path: "user",
                 select: "name",
@@ -187,7 +187,7 @@ module.exports = {
         const query = { eventDate: { $gt: new Date() } };
 
         const events = await Event.find(query)
-            .select("title eventDate location thumbnail user")
+            .select("title eventDate location description thumbnail user")
             .populate({
                 path: "user",
                 select: "name",
