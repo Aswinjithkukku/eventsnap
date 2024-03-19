@@ -246,4 +246,37 @@ module.exports = {
             data: event,
         });
     }),
+
+    removeImageFromGallery: catchAsyncError(async (req, res, next) => {
+        const { eventId } = req.params;
+
+        const { imageId } = req.body;
+
+        console.log(imageId);
+
+        if (!isValidObjectId(eventId)) {
+            return next(new AppError("Invalid event. Please try again", 400));
+        }
+        if (!isValidObjectId(imageId)) {
+            return next(new AppError("Invalid image. Please try again", 400));
+        }
+        let event = await Event.findById(eventId);
+
+        if (!event) {
+            return next(new AppError("Invalid Event ID.", 404));
+        }
+
+        const filteredImages = event.gallery.filter((img) => {
+            return img._id?.toString() !== imageId?.toString()
+        });
+
+        event.gallery = filteredImages;
+
+        await event.save();
+
+        res.status(201).json({
+            status: "success",
+            data: event,
+        });
+    }),
 };

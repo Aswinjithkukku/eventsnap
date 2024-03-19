@@ -54,6 +54,11 @@ router.get("/present", authorize, eventController.getPresentEvents);
 router.get("/upcomming", authorize, eventController.getUpCommingEvents);
 
 router.patch("/gallery/:eventId", authorize, multiupload, eventController.addGalleryImages);
+router.patch(
+    "/gallery/remove/:eventId",
+    authorize,
+    eventController.removeImageFromGallery
+);
 router.get("/:id", authorize, eventController.viewSingleEvent);
 router.patch("/:id", authorize, upload.single("thumbnail"), eventController.updateEvent);
 
