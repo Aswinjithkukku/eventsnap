@@ -53,7 +53,7 @@ module.exports = {
         }
 
         const events = await Event.find(query)
-            .select("title eventDate location description thumbnail user")
+            .select("title eventDate location description thumbnail gallery user")
             .populate({
                 path: "user",
                 select: "name",
@@ -165,7 +165,7 @@ module.exports = {
         const query = { eventDate: { $gte: dayStart, $lte: dayEnd } };
 
         const events = await Event.find(query)
-            .select("title eventDate location description thumbnail user")
+            .select("title eventDate location description thumbnail gallery user")
             .populate({
                 path: "user",
                 select: "name",
@@ -187,7 +187,7 @@ module.exports = {
         const query = { eventDate: { $gt: new Date() } };
 
         const events = await Event.find(query)
-            .select("title eventDate location description thumbnail user")
+            .select("title eventDate location description thumbnail gallery user")
             .populate({
                 path: "user",
                 select: "name",
@@ -202,6 +202,48 @@ module.exports = {
         res.status(200).json({
             status: "success",
             data: events,
+        });
+    }),
+
+    addGalleryImages: catchAsyncError(async (req, res, next) => {
+        const { eventId } = req.params;
+
+        if (!isValidObjectId(eventId)) {
+            return next(new AppError("Invalid event. Please try again", 400));
+        }
+
+        let images = [];
+        let image = req.files["gallery"];
+        if (image || image?.length > 0) {
+            for (let i = 0; i < image?.length; i++) {
+                const img = "/" + image[i]?.path?.replace(/\\/g, "/");
+                images.push({
+                    isApproved: true,
+                    image: img,
+                });
+            }
+        }
+
+        const event = await Event.findByIdAndUpdate(
+            eventId,
+            {
+                gallery: images,
+            },
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+
+        if (!event) {
+            return next(new AppError("Invalid Event ID.", 404));
+        }
+
+        console.log(event);
+
+        res.status(201).json({
+            status: "success",
+            data: event,
         });
     }),
 };

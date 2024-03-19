@@ -114,7 +114,7 @@ module.exports = {
         }
 
         const events = await Event.find(query)
-            .select("title eventDate location description thumbnail user")
+            .select("title eventDate location description thumbnail gallery user")
             .populate({
                 path: "user",
                 select: "name",

@@ -40,7 +40,7 @@ const eventSchema = new Schema(
                 isApproved: {
                     type: Boolean,
                     required: true,
-                    default: false,
+                    default: true,
                 },
                 image: {
                     type: String,
@@ -48,6 +48,19 @@ const eventSchema = new Schema(
                 },
             },
         },
+        gallery: [
+            {
+                isApproved: {
+                    type: Boolean,
+                    required: true,
+                    default: true,
+                },
+                image: {
+                    type: String,
+                    required: true,
+                },
+            },
+        ],
     },
     { timestamps: true }
 );

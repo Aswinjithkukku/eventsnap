@@ -33,12 +33,27 @@ const upload = multer({
     storage: storage,
 });
 
+const multiupload = multer({
+    limits: {
+        fileSize: 20000000,
+    },
+    fileFilter: (req, file, cb) => {
+        const allowed = [".jpg", ".jpeg", ".png", ".webp"];
+        const ext = path.extname(file.originalname);
+        if (!allowed.includes(ext)) {
+            return cb(new Error("Please upload jpg, jpeg, webp, or png"));
+        }
+        cb(undefined, true);
+    },
+    storage: storage,
+}).fields([{ name: "gallery", maxCount: 8 }]);
+
 router.post("/create", authorize, upload.single("image"), eventController.addEvent);
 router.get("/", authorize, eventController.viewEvents);
 router.get("/present", authorize, eventController.getPresentEvents);
 router.get("/upcomming", authorize, eventController.getUpCommingEvents);
 
-// generated idees would be here.
+router.patch("/gallery/:eventId", authorize, multiupload, eventController.addGalleryImages);
 router.get("/:id", authorize, eventController.viewSingleEvent);
 router.patch("/:id", authorize, upload.single("thumbnail"), eventController.updateEvent);
 
