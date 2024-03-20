@@ -123,4 +123,17 @@ module.exports = {
             data: "User deleted successfully",
         });
     }),
+
+    listStudents: catchAsyncError(async (req, res, next) => {
+        const students = await User.find({ role: "user" });
+
+        if (!students) {
+            return next(new AppError("No students found", 404));
+        }
+
+        res.status(200).json({
+            status: "success",
+            data: students,
+        });
+    }),
 };

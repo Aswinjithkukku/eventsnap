@@ -3,6 +3,7 @@ const multer = require("multer");
 const path = require("path");
 const userController = require("../controllers/userController");
 const authorize = require("../middlewares/authorize");
+const restrictTo = require("../middlewares/restrict");
 
 const router = express.Router();
 
@@ -39,5 +40,6 @@ router
     .get(authorize, userController.myAccount)
     .patch(authorize, upload.single("avatar"), userController.updateMe)
     .delete(authorize, userController.deleteMe);
+router.get("/students", authorize, restrictTo("admin"), userController.listStudents);
 
 module.exports = router;

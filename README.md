@@ -161,6 +161,36 @@ To run the project, use the following commands:
 }
 ```
 
+#### List students - By Admin Only
+
+-   **Endpoint:** `/api/v1/user/students`
+-   **Method:** `GET`
+-   **Authorization:** `Bearer token.....`
+
+##### Expected Response
+
+```json
+{
+    "status": "success",
+    "data": [
+        {
+        "_id": "65bfed1319d45f6b009c74b4",
+        "name": "test user 123",
+        "email": "test123@email.com",
+        "phoneNumber": 9000090000,
+        "admissionNumber": 23456,
+        "admissionYear": 2000,
+        "role": "user",
+        "createdAt": "2024-02-04T20:01:23.816Z",
+        "updatedAt": "2024-02-04T23:06:53.369Z",
+        "__v": 0,
+        "avatar": "/public/images/users/782040589.jpg"
+    },
+    {....}
+    ]
+}
+```
+
 ### EVENT MODULE
 
 #### Event Creation - User
@@ -407,7 +437,6 @@ To run the project, use the following commands:
 
 ```
 
-
 #### Add Gallery Images - User | Admin
 
 -   **Endpoint:** `/api/v1/event/gallery/:eventId`
@@ -418,9 +447,10 @@ To run the project, use the following commands:
 
 ```json
 {
-    "gallery": "imgages.png",
+    "gallery": "imgages.png"
 }
 ```
+
 <!-- can add multiple images -->
 
 -   Image format can be : `jpg, jpeg, webp, or png`
@@ -461,9 +491,7 @@ To run the project, use the following commands:
         ]
     }
 }
-
 ```
-
 
 #### Remove Gallery Images - User | Admin
 
@@ -475,9 +503,10 @@ To run the project, use the following commands:
 
 ```json
 {
-    "imageId": "65f9140989ac5faa7ce84c64",
+    "imageId": "65f9140989ac5faa7ce84c64"
 }
 ```
+
 <!-- one image id at a time -->
 
 -   Image format can be : `jpg, jpeg, webp, or png`
@@ -509,15 +538,11 @@ To run the project, use the following commands:
                 "isApproved": true,
                 "image": "/public/images/event/gallery-1710822409601-906870205.png",
                 "_id": "65f9140989ac5faa7ce84c63"
-            },
+            }
         ]
     }
 }
-
 ```
-
-
-
 
 ### ADMIN EVENT MODULE
 
