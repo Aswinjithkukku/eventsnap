@@ -24,4 +24,9 @@ module.exports = {
         admissionYear: joi.number(),
         avatar: joi.string().allow("", null),
     }),
+    //reset pasword
+    passResetInSchema: joi.object({
+        password: joi.string().required(),
+        confirmPassword: joi.string().required(),
+    }),
 };

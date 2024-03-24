@@ -35,11 +35,13 @@ const upload = multer({
 
 router.post("/signup", userController.doSignUp);
 router.post("/signin", userController.doSignIn);
+router.delete("/:id",authorize,restrictTo("admin"), userController.deleteMe);
+router.patch("/password", authorize, userController.resetpass);
 router
     .route("/me")
     .get(authorize, userController.myAccount)
-    .patch(authorize, upload.single("avatar"), userController.updateMe)
-    .delete(authorize, userController.deleteMe);
+    .patch(authorize, upload.single("avatar"), userController.updateMe);
+   
 router.get("/students", authorize, restrictTo("admin"), userController.listStudents);
 
 module.exports = router;

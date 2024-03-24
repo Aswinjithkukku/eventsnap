@@ -177,4 +177,24 @@ module.exports = {
             message: "Event Approved Successfully",
         });
     }),
+    deleteEventByAdmin: catchAsyncError(async (req, res, next) => {
+        const { id } = req.params;
+
+        if (!isValidObjectId(id)) {
+            return next(new AppError("Invalid Id. Please try again", 400));
+        }
+
+        const notification = await Event.findById(id);
+
+        if (!notification) {
+            return next(new AppError("No such event found", 404));
+        }
+
+        await Event.deleteOne({ _id: id });
+
+        res.status(200).json({
+            status: "success",
+            message: "event rejected successfully",
+        });
+    }),
 };
