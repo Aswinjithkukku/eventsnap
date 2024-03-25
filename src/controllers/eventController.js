@@ -212,6 +212,12 @@ module.exports = {
             return next(new AppError("Invalid event. Please try again", 400));
         }
 
+        let galleryImages = await Event.findById(eventId).lean();
+
+        if(!galleryImages?.gallery){
+            galleryImages.gallery = []
+        }
+
         let images = [];
         let image = req.files["gallery"];
         if (image || image?.length > 0) {
@@ -227,7 +233,7 @@ module.exports = {
         const event = await Event.findByIdAndUpdate(
             eventId,
             {
-                gallery: images,
+                gallery: [...galleryImages?.gallery, ...images],
             },
             {
                 new: true,
@@ -267,7 +273,7 @@ module.exports = {
         }
 
         const filteredImages = event.gallery.filter((img) => {
-            return img._id?.toString() !== imageId?.toString()
+            return img._id?.toString() !== imageId?.toString();
         });
 
         event.gallery = filteredImages;
