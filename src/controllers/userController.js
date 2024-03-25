@@ -2,10 +2,13 @@ const jwt = require("jsonwebtoken");
 const catchAsyncError = require("../utils/catchAsyncError");
 const User = require("../models/user.model");
 const AppError = require("../utils/appError");
+const { isValidObjectId } = require("mongoose");
+
 const {
     userSignUpSchema,
     userSignInSchema,
     updateMeSchema,
+    passResetInSchema,
 } = require("../validations/user.schema");
 
 const signToken = (id) => {
@@ -108,15 +111,42 @@ module.exports = {
         });
     }),
 
-    deleteMe: catchAsyncError(async (req, res, next) => {
+
+    resetpass:catchAsyncError(async (req, res, next) => {
+        const { _, error } = passResetInSchema.validate(req.body);
+        if (error) {
+            return next(
+                new AppError(error.details ? error?.details[0]?.message : error?.message, 400)
+            );
+        }
         const user = await User.findById(req.user._id);
+        user.password = req.body.password;
+user.confirmPassword = req.body.confirmPassword;
+await user.save();
+        res.status(200).json({
+            status: "success",
+            data: user,
+        });
+
+    }),
+
+
+
+    deleteMe: catchAsyncError(async (req, res, next) => {
+        const { id } = req.params;
+
+        if (!isValidObjectId(id)) {
+            return next(new AppError("Invalid Id. Please try again", 400));
+        }
+
+        const user = await User.findById(id);
 
         if (!user) {
-            return next(new AppError("No user found", 404));
+            return next(new AppError("No user found", 400));
         }
 
         // Delete the user
-        await User.deleteOne({ _id: user._id });
+        await User.deleteOne({ _id: id });
 
         res.status(200).json({
             status: "success",

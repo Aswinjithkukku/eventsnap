@@ -20,7 +20,7 @@ module.exports = {
 
         const event = new Event({
             ...req.body,
-            isApproved: true,
+            isApproved: false,
             thumbnail: {
                 isApproved: true,
                 image: image,
@@ -40,7 +40,7 @@ module.exports = {
         const { title, date } = req.query;
 
         let query = {
-            isApproved: true,
+            isApproved: false,
             eventDate: { $gte: new Date() },
         };
 
@@ -53,7 +53,7 @@ module.exports = {
         }
 
         const events = await Event.find(query)
-            .select("title eventDate location description thumbnail gallery user")
+            .select("_id title eventDate location description thumbnail gallery user isApproved")
             .populate({
                 path: "user",
                 select: "name",
@@ -162,10 +162,12 @@ module.exports = {
         const dayEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         dayEnd.setHours(23, 59, 59, 999);
 
-        const query = { eventDate: { $gte: dayStart, $lte: dayEnd } };
+        const query = { 
+            isApproved : true,
+            eventDate: { $gte: dayStart, $lte: dayEnd } };
 
         const events = await Event.find(query)
-            .select("title eventDate location description thumbnail gallery user")
+            .select("title eventDate location description thumbnail gallery user isApproved")
             .populate({
                 path: "user",
                 select: "name",
@@ -184,10 +186,16 @@ module.exports = {
     }),
 
     getUpCommingEvents: catchAsyncError(async (req, res, next) => {
-        const query = { eventDate: { $gt: new Date() } };
+        const today = new Date();
+        const dayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const dayEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        dayEnd.setHours(23, 59, 59, 999);
+        const query = {
+            isApproved : true,
+            eventDate: { $gt: dayEnd } };
 
         const events = await Event.find(query)
-            .select("title eventDate location description thumbnail gallery user")
+            .select("title eventDate location description thumbnail gallery user isApproved")
             .populate({
                 path: "user",
                 select: "name",

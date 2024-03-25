@@ -53,5 +53,10 @@ router
     .route("/:id")
     .get(authorize, restrictTo("admin"), adminEventController.viewSingleEventByAdmin)
     .patch(authorize, restrictTo("admin"), adminEventController.approveEventByAdmin);
-
+    router.delete(
+        "/delete/:id",
+        authorize,
+        restrictTo("admin"),
+        adminEventController.deleteEventByAdmin
+    );
 module.exports = router;
